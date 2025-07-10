@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Daily Motivation</title>
+  <link rel="stylesheet" href="/styles/style.css" />
+</head>
+<body>
+  <div class="container">
+    <h1>💡 Daily Motivation</h1>
+    <p id="description" class="fade-in">
+      Get a fresh motivational quote to uplift your day. Click "New Quote" for inspiration, or copy a favorite to share with others!
+    </p>
+    <div id="quote-box" class="fade-in">
+      <% if(locals.data) { %>
+      <p id="quote">"<%= data.q %>"</p>
+      <p id="author"><%= data.a %></p>
+      <% } %>
+    </div>
+    <div id="button-group" class="fade-in">
+      <form action="/submit" method="POST">
+        <input type="submit" value="New Quote">
+      </form>
+      <button id="copy-quote"><span id="tooltip">Copied!</span>Copy Quote 📋</button>
+    </div>  
+  </div>
+  <script>
+    document.getElementById("copy-quote").onclick = () => {
+      const quote = document.getElementById("quote").textContent;
+      const author = document.getElementById("author").textContent;
+      const fullQuote = `"${quote}" - ${author}`;
+
+      navigator.clipboard.writeText(fullQuote).then(() => {
+        alert("Quote copied to clipboard!");
+      }).catch((err) => {
+        console.error("Failed to copy quote:", err);
+        alert("Failed to copy quote.");
+      });
+    };
+  </script>
+
+</body>
+</html>
